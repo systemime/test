@@ -1,4 +1,0 @@
-
-ppython:S101"MRename class "myThread" to match the regular expression ^[A-Z_][a-zA-Z0-9]+$.(Ç¾íõùÿÿÿÿ8ƒ¶¨È¸.
-tpython:S117"VRename this parameter "threadName" to match the regular expression ^[_a-z][a-z0-9_]*$.(ì”ğ8ƒ¶¨È¸.
-wpython:S117"TRename this parameter "threadID" to match the regular expression ^[_a-z][a-z0-9_]*$.(â¬³şÿÿÿÿ8ƒ¶¨È¸.
