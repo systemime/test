@@ -30,6 +30,13 @@ def process_data():
                 break
             print("%s %s processing %s\n" % (threading.current_thread().name, threading.current_thread().ident, data))
             workQueue.task_done()
+            """
+            表示前面排队的任务已经被完成。被队列的消费者线程使用。每个 get() 被用于获取一个任务， 后续调用 task_done() 告诉队列，该任务的处理已经完成。
+
+            如果 join() 当前正在阻塞，在所有条目都被处理后，将解除阻塞(意味着每个 put() 进队列的条目的 task_done() 都被收到)。
+
+            如果被调用的次数多于放入队列中的项目数量，将引发 ValueError 异常 。
+            """
         else:
             queueLock.release()
             pass
@@ -45,6 +52,11 @@ for i in threadList:
 time.sleep(2)
 
 workQueue.join()
+"""
+阻塞至队列中所有的元素都被接收和处理完毕。
+
+当条目添加到队列的时候，未完成任务的计数就会增加。每当消费者线程调用 task_done() 表示这个条目已经被回收，该条目所有工作已经完成，未完成计数就会减少。当未完成计数降到零的时候， join() 阻塞被解除。
+"""
 
 print("写入队列")
 # 去除锁观察竞争状态
