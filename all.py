@@ -29,7 +29,6 @@ def consume(l):
             next(p)
             while len(l) > 0:
                 lock.acquire()
-                # print(l.pop(), [i.name for i in [t1, t2, t3, t4] if i.ident == threading.get_ident()].pop())
                 print(l.pop(), threading.current_thread().name)
                 lock.release()
         except StopIteration:
@@ -48,3 +47,7 @@ if __name__ == "__main__":
     t2.start()
     t3.start()
     t4.start()
+    t1.join()
+    t2.join()
+    t3.join()
+    t4.join()
