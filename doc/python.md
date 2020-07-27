@@ -4,6 +4,9 @@
 https://python-parallel-programmning-cookbook.readthedocs.io/zh_CN/latest/chapter2/08_Thread_synchronization_with_semaphores.html
 https://docs.python.org/zh-cn/3.7/library/threading.html
 
+# 博客
+https://www.shuopython.com/
+
 ## await相关博文
 https://www.techug.com/post/playing-around.html
 
