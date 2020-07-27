@@ -28,6 +28,7 @@ def process_data():
             # None是队列里的信号量，应该使用真正的信号量去处理这个地方
             if data is None:
                 break
+            # 返回当前对应调用者的控制线程的 Thread 对象。如果调用者的控制线程不是利用 threading 创建，会返回一个功能受限的虚拟线程对象
             print("%s %s processing %s\n" % (threading.current_thread().name, threading.current_thread().ident, data))
             workQueue.task_done()
             """

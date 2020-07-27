@@ -1,4 +1,5 @@
 import time
+import datetime
 import sys
 import threading
 import random
@@ -9,27 +10,27 @@ def produce(l):
     global lock
     i = 0
     while 1:
-        if i < 5:
+        if i < 4:
             lock.acquire()
             l.append(i)
             lock.release()
             yield i
             i = i + 1
-            time.sleep(random.randint(0, 9))
+            time.sleep(random.randint(0, 5))
         else:
             return
-        # 消费者
 
 
+# 消费者
 def consume(l):
-    global lock
+    # global lock
     p = produce(l)
     while 1:
         try:
             next(p)
             while len(l) > 0:
                 lock.acquire()
-                print(l.pop(), threading.current_thread().name)
+                print(l.pop(), threading.current_thread().name, datetime.datetime.now())
                 lock.release()
         except StopIteration:
             sys.exit(0)
