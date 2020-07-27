@@ -22,16 +22,15 @@ class consumer(Thread):
         condition.acquire()
         if len(items) == 0:
             condition.wait()
-            print("Consumer notify : no item to consume")
+            print("Co : 没有内容可以消费")
         items.pop()
-        print("Consumer notify : consumed 1 item")
-        print("Consumer notify : items to consume are " + str(len(items)))
+        print("Co : 消耗内容： " + str(len(items)))
 
         condition.notify()
         condition.release()
 
     def run(self):
-        for i in range(0, 20):
+        for i in range(0, 5):
             time.sleep(2)
             self.consume()
 
@@ -63,15 +62,15 @@ class producer(Thread):
             
             在 3.2 版更改: 很明显，方法总是返回 None。
             """
-            print("Producer notify : items producted are " + str(len(items)))
-            print("Producer notify : stop the production!!")
+            print("Pr : 生产内容为： " + str(len(items)))
+            print("Pr : 停止生产!!")
         items.append(1)
-        print("Producer notify : total items producted " + str(len(items)))
+        print("Pr : 生产总数量 " + str(len(items)))
         condition.notify()
         condition.release()
 
     def run(self):
-        for i in range(0, 20):
+        for i in range(0, 5):
             time.sleep(1)
             self.produce()
 
