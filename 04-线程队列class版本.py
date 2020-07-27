@@ -24,18 +24,18 @@ def process_data(threadName, q):
         if not workQueue.empty():
             data = q.get()
             queueLock.release()
-            print("%s processing %s" % (threadName, data))
+            print("%s processing %s\n" % (threadName, data))
         else:
             queueLock.release()
-        time.sleep(1)
+        # time.sleep(1)
 
 
-threadList = ["Thread-1", "Thread-2", "Thread-3"]
-nameList = ["One", "Two", "Three", "Four", "Five"]
+threadList = ["Thread-1", "Thread-2", "Thread-3", "Thread-4", "Thread-5", "Thread-6"]
+nameList = ["One", "Two", "Three", "Four", "Five", "six", "server", "eng"]
 # 定义锁
 queueLock = threading.Lock()
 # 10个队列
-workQueue = queue.Queue(10)
+workQueue = queue.Queue(8)
 # 线程列表
 threads = []
 # 线程id
@@ -47,6 +47,9 @@ for tName in threadList:
     thread.start()
     threads.append(thread)
     threadID += 1
+
+# 等待线程全部启动，便于观察线程竞争
+time.sleep(2)
 
 # 获得锁，操作nameList
 queueLock.acquire()
