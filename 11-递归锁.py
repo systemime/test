@@ -38,8 +38,7 @@ class Box(object):
         Box.lock.release()
 
 
-# These two functions run n in separate
-# threads and call the Box's methods
+# 这两个函数在单独的线程中运行n并调用Box的方法
 def adder(box, items):
     while items > 0:
         print("adding 1 item in the box")
@@ -56,8 +55,7 @@ def remover(box, items):
         items -= 1
 
 
-# the main program build some
-# threads and make sure it works
+# 主程序构建一些线程，并确保它可以工作
 if __name__ == "__main__":
     items = 3
     print("putting %s items in the box " % items)
