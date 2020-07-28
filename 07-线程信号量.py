@@ -28,10 +28,9 @@ def producer():
     time.sleep(2)
     # create a random item
     item = random.randint(0, 1000)
-    print("producer notify : produced item number %s" % item)
-    # Release a semaphore, incrementing the internal counter by one.
-    # When it is zero on entry and another thread is waiting for it
-    # to become larger than zero again, wake up that thread.
+    print("pro : 生产者生产内容为 %s" % item)
+    # 释放信号量，使内部计数器增加一。
+    # 当入口为零时，另一个线程正在等待它再次变得大于零，请唤醒该线程。
     # 提高信号量计数
     semaphore.release()
 
