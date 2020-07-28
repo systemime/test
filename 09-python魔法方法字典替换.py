@@ -32,6 +32,7 @@ print("03--", a.__dict__)
 print("04--", d)
 print("06--", old_dict)
 
+print("=_=_="*20)
 
 class A:
     def substitute(self, d):
