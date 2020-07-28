@@ -14,7 +14,11 @@ def open():
     print('人数够了， 开门!')
 
 
+# 3个线程上线，运行函数open
 barrier = threading.Barrier(3, action=open, timeout=None)
+# 创建一个需要 parties 个线程的栅栏对象。如果提供了可调用的 action 参数，
+# 它会在所有线程被释放时在其中一个线程中自动调用。
+# timeout 是默认的超时时间，如果没有在 wait() 方法中指定超时时间的话。
 
 
 class Customer(threading.Thread):
@@ -28,6 +32,9 @@ class Customer(threading.Thread):
             print('{0}在等着开门.'.format(self.name))
             try:
                 barrier.wait(2)
+                """如果创建栅栏对象时在构造函数中提供了action 参数，它将在其中一个线程释放前被调用。
+                如果此调用引发了异常，栅栏对象将进入损坏态。
+                ，或重置栅栏时仍有线程等待释放，将会引发 BrokenBarrierError 异常。"""
             except threading.BrokenBarrierError:
                 pass
             print('开门了， go go go')

@@ -16,7 +16,7 @@ def produce():
     with con:
         global num
         sum.n = 666
-        print('厨师开始做鱼丸了！共计66个鱼丸')
+        print('厨师开始做鱼丸了！共计666个鱼丸')
         while 1:
             num += 1
             sum.n -= 1
