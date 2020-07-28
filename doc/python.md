@@ -8,6 +8,7 @@ https://python3-cookbook.readthedocs.io/zh_CN/latest/c12/p01_start_stop_thread.h
 # 博客
 https://www.shuopython.com/
 https://www.liaoxuefeng.com/wiki/1016959663602400/1017630786314240
+https://mozillazg.com/2017/08/python-asyncio-note-coroutines-base-usage.html#hidcoroutine
 
 ## await相关博文
 https://www.techug.com/post/playing-around.html
