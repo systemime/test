@@ -34,6 +34,7 @@ print("06--", old_dict)
 
 print("=_=_="*20)
 
+
 class A:
     def substitute(self, d):
         object.__setattr__(self, '__dict__', d)
