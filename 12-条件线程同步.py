@@ -15,7 +15,7 @@ num = 1
 def produce():
     with con:
         global num
-        sum.n = 66
+        sum.n = 666
         print('厨师开始做鱼丸了！共计66个鱼丸')
         while 1:
             num += 1
@@ -25,10 +25,10 @@ def produce():
             elif num == 5:
                 print("锅里有{}个鱼丸，库存还剩{}个\n可以吃饭了".format(num, sum.n))
                 con.notify_all()
-                # 超时终止
+                # 超时没有消费者结束线程
                 con.wait(timeout=5)
-            elif sum.n < 0:
-                print("没有库存了，吃完赶紧走吧")
+            else:
+                print("本店打烊了，吃完赶紧走吧")
                 con.notify_all()
                 break
 
@@ -36,18 +36,19 @@ def produce():
 def consume():
     sum.n = 0
 
-    with con:
-        while 1:
+    while 1:
+        with con:
             global num
             if num > 0:
                 sum.n += 1
-                if sum.n > 5:
-                    print("{}说：吃饱了不吃了".format(threading.current_thread().name))
+                if sum.n == 5:
+                    print("{}吃了一个鱼丸, 火锅里的鱼丸数量为{}个\n{}说：吃饱了不吃了".format(threading.current_thread().name, num, threading.current_thread().name))
                     con.notify_all()
                     break
                 num -= 1
                 print('{}吃了一个鱼丸，火锅里的鱼丸数量为{}个'.format(threading.current_thread().name, num))
-            else:
+        with con:
+            if num <= 0:
                 print('{}说：没吃的了，赶紧加鱼丸吧'.format(threading.current_thread().name))
                 con.notify_all()
                 con.wait()
