@@ -23,7 +23,6 @@ def produce(l):
 
 # 消费者
 def consume(l):
-    # global lock
     p = produce(l)
     while 1:
         try:
