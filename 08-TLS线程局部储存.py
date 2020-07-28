@@ -5,7 +5,7 @@ local_school = threading.local()
 
 
 def process_student():
-    # 获取当前线程关联的student:
+    # 获取当前线程关联的student数据:
     std = local_school.student
     print('Hello, %s (in %s)' % (std, threading.current_thread().name))
 
