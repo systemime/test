@@ -6,6 +6,7 @@ Three threads print A B C in order.
 
 
 from threading import Thread, Condition
+import time
 
 condition = Condition()
 current = "A"
@@ -42,6 +43,7 @@ class ThreadC(Thread):
             with condition:
                 while current != "C":
                     condition.wait()
+                time.sleep(1)
                 print("C")
                 current = "A"
                 condition.notify_all()

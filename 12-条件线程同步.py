@@ -1,84 +1,67 @@
 """
-条件指的是应用程序状态的改变。这是另一种同步机制，其中某些线程在等待某一条件发生，其他的线程会在该条件发生的时候进行通知。
-一旦条件发生，线程会拿到共享资源的唯一权限。
-
-
+请配合./真实案例/3个线程顺序打印abc
 """
-from threading import Thread, Condition
+import threading
 import time
 
-items = []
-condition = Condition()
+
+# 创建条件对象
+con = threading.Condition()
+# 创建线程变量
+sum = threading.local()
+num = 1
 
 
-class consumer(Thread):
-
-    def __init__(self):
-        Thread.__init__(self)
-
-    def consume(self):
-        global condition
-        global items
-        condition.acquire()
-        if len(items) == 0:
-            condition.wait()
-            print("Co : 没有内容可以消费")
-        items.pop()
-        print("Co : 消耗内容： " + str(len(items)))
-
-        condition.notify()
-        condition.release()
-
-    def run(self):
-        for i in range(0, 5):
-            time.sleep(2)
-            self.consume()
+def produce():
+    with con:
+        global num
+        sum.n = 66
+        print('厨师开始做鱼丸了！共计66个鱼丸')
+        while 1:
+            num += 1
+            sum.n -= 1
+            if sum.n >= 0 and num < 5:
+                print("锅里有{}个鱼丸，库存还剩{}个".format(num, sum.n))
+            elif num == 5:
+                print("锅里有{}个鱼丸，库存还剩{}个\n可以吃饭了".format(num, sum.n))
+                con.notify_all()
+                # 超时终止
+                con.wait(timeout=5)
+            elif sum.n < 0:
+                print("没有库存了，吃完赶紧走吧")
+                con.notify_all()
+                break
 
 
-class producer(Thread):
+def consume():
+    sum.n = 0
 
-    def __init__(self):
-        Thread.__init__(self)
-
-    def produce(self):
-        global condition
-        global items
-        # 取得锁
-        condition.acquire()
-        if len(items) == 10:
-            condition.wait()
-            """
-            等待直到被通知或发生超时。如果线程在调用此方法时没有获得锁，将会引发 RuntimeError 异常。
-
-            这个方法释放底层锁，然后阻塞，直到在另外一个线程中调用同一个条件变量的 notify() 或 notify_all() 唤醒它，
-            或者直到可选的超时发生。一旦被唤醒或者超时，它重新获得锁并返回。
-            
-            当提供了 timeout 参数且不是 None 时，它应该是一个浮点数，代表操作的超时时间，以秒为单位（可以为小数）。
-            
-            当底层锁是个 RLock ，不会使用它的 release() 方法释放锁，因为当它被递归多次获取时，实际上可能无法解锁。
-            相反，使用了 RLock 类的内部接口，即使多次递归获取它也能解锁它。 然后，在重新获取锁时，使用另一个内部接口来恢复递归级别。
-            
-            返回 True ，除非提供的 timeout 过期，这种情况下返回 False。
-            
-            在 3.2 版更改: 很明显，方法总是返回 None。
-            """
-            print("Pr : 生产内容为： " + str(len(items)))
-            print("Pr : 停止生产!!")
-        items.append(1)
-        print("Pr : 生产总数量 " + str(len(items)))
-        condition.notify()
-        condition.release()
-
-    def run(self):
-        for i in range(0, 5):
-            time.sleep(1)
-            self.produce()
+    with con:
+        while 1:
+            global num
+            if num > 0:
+                sum.n += 1
+                if sum.n > 5:
+                    print("{}说：吃饱了不吃了".format(threading.current_thread().name))
+                    con.notify_all()
+                    break
+                num -= 1
+                print('{}吃了一个鱼丸，火锅里的鱼丸数量为{}个'.format(threading.current_thread().name, num))
+            else:
+                print('{}说：没吃的了，赶紧加鱼丸吧'.format(threading.current_thread().name))
+                con.notify_all()
+                con.wait()
 
 
-if __name__ == "__main__":
-    producer = producer()
-    consumer = consumer()
-    producer.start()
-    consumer.start()
-    producer.join()
-    consumer.join()
+if __name__ == '__main__':
+    cons = ['吃货1', '吃货2', '吃货3', '吃货4', '吃货5', '吃货6', '吃货7']
+    threads = []
+    for k, c in enumerate(cons):
+        threads.append(threading.Thread(target=consume, name=c))
+        threads[k].start()
+    p = threading.Thread(target=produce, name="厨师")
+    p.start()
+    p.join()
+    for c in threads:
+        c.join()
+
