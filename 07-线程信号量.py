@@ -11,6 +11,7 @@ import random
 # If the value given is less than 0, ValueError is raised.
 semaphore = threading.Semaphore(0)
 
+# 信号量解锁信号量增加1，获取减少1
 
 # 消费者
 def consumer():
