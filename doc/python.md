@@ -3,9 +3,11 @@
 
 https://python-parallel-programmning-cookbook.readthedocs.io/zh_CN/latest/chapter2/08_Thread_synchronization_with_semaphores.html
 https://docs.python.org/zh-cn/3.7/library/threading.html
+https://python3-cookbook.readthedocs.io/zh_CN/latest/c12/p01_start_stop_thread.html#id3
 
 # 博客
 https://www.shuopython.com/
+https://www.liaoxuefeng.com/wiki/1016959663602400/1017630786314240
 
 ## await相关博文
 https://www.techug.com/post/playing-around.html
