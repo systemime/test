@@ -8,9 +8,9 @@ import random
 # 生产者
 def produce(l):
     global lock
-    i = 0
+    i = 1
     while 1:
-        if i < 4:
+        if i <= 4:
             lock.acquire()
             l.append(i)
             lock.release()
