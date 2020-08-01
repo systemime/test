@@ -28,9 +28,8 @@ def consume(l):
         try:
             next(p)
             while len(l) > 0:
-                lock.acquire()
-                print(l.pop(), threading.current_thread().name, datetime.datetime.now())
-                lock.release()
+                with lock:
+                    print(l.pop(), threading.current_thread().name, datetime.datetime.now())
         except StopIteration:
             sys.exit(0)
 
