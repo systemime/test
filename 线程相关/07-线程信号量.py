@@ -5,13 +5,6 @@ import threading
 import time
 import random
 
-# The optional argument gives the initial value for the internal
-# counter;
-# it defaults to 1.
-# If the value given is less than 0, ValueError is raised.
-semaphore = threading.Semaphore(0)
-
-# 信号量解锁信号量增加1，获取减少1
 
 # 消费者
 def consumer():
@@ -37,6 +30,11 @@ def producer():
 
 
 if __name__ == '__main__':
+    # it defaults to 1.
+    semaphore = threading.Semaphore(0)
+
+    # 信号量解锁信号量增加1，获取减少1
+
     for i in range(0, 5):
         t1 = threading.Thread(target=producer)
         t2 = threading.Thread(target=consumer)

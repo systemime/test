@@ -26,7 +26,7 @@ def produce():
                 print("锅里有{}个鱼丸，库存还剩{}个\n可以吃饭了".format(num, sum.n))
                 con.notify_all()
                 # 超时没有消费者结束线程
-                con.wait(timeout=5)
+                con.wait(timeout=3)
             else:
                 print("本店打烊了，吃完赶紧走吧")
                 con.notify_all()
@@ -55,6 +55,8 @@ def consume():
 
 
 if __name__ == '__main__':
+    import datetime
+    start_time = datetime.datetime.now()
     cons = ['吃货1', '吃货2', '吃货3', '吃货4', '吃货5', '吃货6', '吃货7']
     threads = []
     for k, c in enumerate(cons):
@@ -66,3 +68,5 @@ if __name__ == '__main__':
     for c in threads:
         c.join()
 
+    end_time = datetime.datetime.now()
+    print(start_time, end_time)
